@@ -33,9 +33,9 @@ async function onSubmit(event) {
     action: actionValue,
     resourceName: $("resourceName")?.value ?? "",
     resourceDescription: $("resourceDescription")?.value ?? "",
-    resourceAvailable: $("resourceAvailable")?.value ?? "",
+    resourceAvailable: $("resourceAvailable")?.checked ?? false,
     resourcePrice: $("resourcePrice")?.value ?? "",
-    resourcePriceUnit: $("resourcePriceUnit")?.value ?? ""
+    resourcePriceUnit: $("resourcePriceUnit")?.value ?? "",
   };
 
   logSection("Sending payload to httpbin.org/post", payload);

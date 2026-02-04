@@ -3,12 +3,18 @@
 // ===============================
 const actions = document.getElementById("resourceActions");
 const resourceNameContainer = document.getElementById("resourceNameContainer");
+const resourceDescriptionContainer = document.getElementById("resourceDescriptionContainer");
+//const resourceAvailableContainer = document.getElementById("resourceAvailableContainer");
 
 // Example roles
 const role = "admin"; // "reserver" | "admin"
 
 // Will hold a reference to the Create button so we can enable/disable it
 let createButton = null;
+
+//resource name ja resource desciption tilan validointi
+let resourceNameValid = false;
+let resourceDescriptionValid = false;
 
 // ===============================
 // 2) Button creation helpers
@@ -117,6 +123,7 @@ function createResourceNameInput(container) {
   return input;
 }
 
+
 function isResourceNameValid(value) {
   const trimmed = value.trim();
 
@@ -128,6 +135,60 @@ function isResourceNameValid(value) {
 
   return lengthValid && charactersValid;
 }
+
+//Resource Description kohdan syötteen luonti
+function createResourceDescriptionInput(container) {
+ const textarea = document.createElement("textarea");
+
+  // Core attributes
+  textarea.id = "resourceDescription";
+  textarea.name = "resourceDescription";
+  textarea.placeholder = "e.g., Descripbe location or capacity etc";
+  textarea.rows = 4;
+
+  // Base Tailwind styling (single source of truth)
+  textarea.className = `
+    mt-2 w-full rounded-2xl border border-black/10 bg-white
+    px-4 py-3 text-sm outline-none
+    focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/30
+    transition-all duration-200 ease-out
+  `;
+
+  container.appendChild(textarea);
+  return textarea;
+}
+
+// Resource Description validoinnin tarkistus
+function isResourceDescriptionValid(value) {
+  const trimmed = value.trim();
+
+  // Allowed: letters, numbers, Finnish letters, and space (based on your current regex)
+  const allowedPattern = /^[a-zA-Z0-9äöåÄÖÅ ]+$/;
+
+  const lengthValid = trimmed.length >= 10 && trimmed.length <= 50;
+  const charactersValid = allowedPattern.test(trimmed);
+
+  return lengthValid && charactersValid;
+}
+
+/*Available syötteen luonti
+function createResourceAvailableInput(container) {
+  const checked = document.createElement("checked");
+
+  // Core attributes
+  checked.id = "resourceAvailable";
+  checked.name = "resourceAvailable";
+
+  container.appendChild(checked);
+  return checked;
+}
+  
+Resource availbility validoinnin tarkistus
+function isResourceAvailableValid() {
+  const checked = document.getElementById("resourceAvailable");
+  return checked ? checked.checked : false;
+}
+  */
 
 function setInputVisualState(input, state) {
   // Reset to neutral base state (remove only our own validation-related classes)
@@ -164,11 +225,13 @@ function attachResourceNameValidation(input) {
       return;
     }
 
-    const valid = isResourceNameValid(raw);
+    //const resourceNameValid = isResourceNameValid(raw);
+    resourceNameValid = isResourceNameValid(raw);
 
-    setInputVisualState(input, valid ? "valid" : "invalid");
-    setButtonEnabled(createButton, valid);
+    setInputVisualState(input, resourceNameValid ? "valid" : "invalid");
+    setButtonEnabled(createButton, resourceNameValid && resourceDescriptionValid);
   };
+
 
   // Real-time validation
   input.addEventListener("input", update);
@@ -176,6 +239,43 @@ function attachResourceNameValidation(input) {
   // Initialize state on page load (Create disabled until valid)
   update();
 }
+
+//Resourse Description validoinnin kiinnitys textareaan
+function attachResourceDescriptionValidation(textarea) {
+  const update = () => {
+    const raw = textarea.value;
+
+    if (raw.trim() === "") {
+      setInputVisualState(textarea, "neutral");
+      setButtonEnabled(createButton, false);
+      return;
+    }
+
+    //const resourceDescriptionValid = isResourceDescriptionValid(raw);
+    resourceDescriptionValid = isResourceDescriptionValid(raw);
+
+    setInputVisualState(textarea, resourceDescriptionValid ? "valid" : "invalid");
+    setButtonEnabled(createButton, resourceNameValid && resourceDescriptionValid);
+  };
+
+
+  // Real-time validation
+  textarea.addEventListener("input", update);
+
+  // Initialize state on page load (Create disabled until valid)
+  update();
+}
+
+/*
+function attachResourceAvailableValidation(checked) {
+
+  const valid = isResourceAvailableValid(raw);
+
+  setInputVisualState(textarea, valid ? "valid" : "invalid");
+    const ResourceValid = isResourceAvailableValid(resourceAvailableInput.checked);
+    setButtonEnabled(createButton, valid && DescriptionValid && ResourceValid);
+}
+    */
 
 // ===============================
 // 4) Bootstrapping
@@ -185,3 +285,12 @@ renderActionButtons(role);
 // Create + validate input
 const resourceNameInput = createResourceNameInput(resourceNameContainer);
 attachResourceNameValidation(resourceNameInput);
+
+//luo ja validoi resourceDescription syöte
+const resourceDescriptionInput = createResourceDescriptionInput(resourceDescriptionContainer);
+attachResourceDescriptionValidation(resourceDescriptionInput);
+
+/*
+const resourceAvailableInput = createResourceAvailableInput(resourceAvailableContainer);
+attachResourceAvailableValidation(resourceAvailableInput);
+*/
