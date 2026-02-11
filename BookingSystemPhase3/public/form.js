@@ -22,6 +22,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
 async function onSubmit(event) {
   event.preventDefault();
+  /*
+  console.log("textarea element:", $("resourceDescription"));
+  console.log("textarea value:", $("resourceDescription")?.value);
+  */
   const submitter = event.submitter;
   const actionValue = submitter && submitter.value ? submitter.value : "create";
   const selectedUnit = document.querySelector('input[name="resourcePriceUnit"]:checked')?.value ?? "";
@@ -30,10 +34,12 @@ async function onSubmit(event) {
 
   const payload = {
     action: actionValue,
-    resourceName: $("resourceNamee")?.value ?? "",
+    //tästä korjattu kirjoitusvirhe resourceNamee
+    resourceName: $("resourceName")?.value ?? "",
     resourceDescription: $("resourceDescription")?.value ?? "",
     resourceAvailable: $("resourceAvailable")?.checked ?? false,
-    resourcePrice,
+    //resourcePrice muuttuja määritettiin, mutta ei kutsuttu. nyt se kutsutaan tässä
+    resourcePrice: resourcePrice,
     resourcePriceUnit: selectedUnit
   };
 
@@ -63,6 +69,8 @@ async function onSubmit(event) {
     msg += "Name ➡️ "+ data.echo.resourceName + "\n";
     msg += "Description ➡️ " + data.echo.resourceDescription + "\n";
     msg += "Availability ➡️ " + data.echo.resourceAvailable + "\n";
+    //tähän lisätty resourcePrice, nyt näkyy server responsessa hinta
+    msg += "Price ➡️ " + data.echo.resourcePrice + "\n";
     msg += "Price unit ➡️ " + data.echo.resourcePriceUnit + "\n";
 
     console.log("Server response " + `[${timestamp()}]`);
@@ -73,6 +81,8 @@ async function onSubmit(event) {
     console.log("Description ➡️ ", data.echo.resourceDescription);
     console.log("Availability ➡️ ", data.echo.resourceAvailable);
     console.log("Price ➡️ ", data.echo.resourcePrice);
+    console.log("Price unit ➡️ ", data.echo.resourcePriceUnit);
+
 
     console.log("--------------------------");
     alert(msg);

@@ -43,7 +43,8 @@ app.post("/api/resources", (req, res) => {
   // Normalize inputs
   const resourceAction = String(action).trim();
   const name = String(resourceName).trim();
-  const description = "";
+  //const description = ""; alle muutettu String(resourceDescription)
+  const description = String(resourceDescription).trim();
   const available = Boolean(resourceAvailable);
   const price = Number.isFinite(Number(resourcePrice))
     ? Number(resourcePrice)
@@ -56,6 +57,8 @@ app.post("/api/resources", (req, res) => {
   console.log("Action ➡️ ", resourceAction);
   console.log("Name ➡️ ", name);
   console.log("Description ➡️ ", description);
+  //lisätty Avaibility
+  console.log("Avaibility ➡️ ", available);
   console.log("Price ➡️ ", price);
   console.log("Price unit ➡️ ", unit);
   console.log("--------------------------");
