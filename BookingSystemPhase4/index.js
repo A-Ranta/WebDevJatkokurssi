@@ -46,29 +46,38 @@ const resourceValidators = [
     .exists({ checkFalsy: true }).withMessage('resourceName is required')
     .isString().withMessage('resourceName must be a string')
     .trim()
-    .escape(),
+    //.escape() suojaa sovelluksen haitalliselta syötteeltä (XXS)
+    .escape()
+    //lisätty nimen min ja max pituus
+    .matches(/^[A-Za-z0-9 ]+$/)
+    .isLength({ min:5, max: 30 }).withMessage('resourceName must be 5-30 characters'),
 
   body('resourceDescription')
     .exists({ checkFalsy: true }).withMessage('resourceDescription is required')
     .isString().withMessage('resourceDescription must be a string')
     .trim()
+    .escape()
+    .matches(/^[A-Za-z0-9 ]+$/)
     .isLength({ min:10, max: 50 }).withMessage('resourceDescription must be 10-50 characters'),
 
   body('resourceAvailable')
     .exists({ checkFalsy: true }).withMessage('resourceAvailable is required')
-    .isBoolean().withMessage('resourceAvailable must be boolean')
-    .toBoolean(), // coercion
+    //.exists().withMessage('resourceAvailable is required') //hyväksyy true ja false???
+    .custom(value => typeof value === 'boolean')
+    .isBoolean().withMessage('resourceAvailable must be boolean'),
+    //.toBoolean(), // coercion ei tarkista arvoa, vaan muuttaa arvon joko true tai false (boolean)
 
   body('resourcePrice')
     .exists({ checkFalsy: true }).withMessage('resourcePrice is required')
-    .isFloat({ min: 0 }).withMessage('resourcePrice must be a non-negative number')
-    .toFloat(), // coercion
+    .isFloat({ min: 0 }).withMessage('resourcePrice must be a non-negative number'),
+    //.toFloat(), // coercion
 
   body('resourcePriceUnit')
     .exists({ checkFalsy: true }).withMessage('resourcePriceUnit is required')
     .isString().withMessage('resourcePriceUnit must be a string')
     .trim()
-    .isIn(['hour', 'day'])
+    //lisätty loput vaihtoehdot week ja month
+    .isIn(['hour', 'day', "week", "month"])
     .withMessage("resourcePriceUnit must be 'hour', 'day', 'week', or 'month'"),
 ];
 
@@ -108,7 +117,8 @@ app.post('/api/resources', resourceValidators, async (req, res) => {
     return res.status(400).json({ ok: false, error: 'Only create is implemented right now' });
   }
 
-  resourceAvailable = false;
+  //tämä pakottaa resourceAvailable tilan false?
+  //resourceAvailable = false;
 
   try {
     const insertSql = `
@@ -117,10 +127,13 @@ app.post('/api/resources', resourceValidators, async (req, res) => {
       RETURNING id, name, description, available, price, price_unit, created_at
     `;
     const params = [
-      crypto.createHash('sha256').update(resourceName, 'utf8').digest('hex'),
+      //crypto.createHash salaa käyttäjän syötteen, muuttaa käyttäjän syötteen erilaiseksi
+      //crypto.createHash('sha256').update(resourceName, 'utf8').digest('hex'),
+      resourceName,
       resourceDescription,
       Boolean(resourceAvailable),
-      Number(resourcePrice)*2,
+      //Number(resourcePrice)*2, tässä kerrotaan käyttäjän luku kahdella
+      Number(resourcePrice),
       resourcePriceUnit
     ];
 
