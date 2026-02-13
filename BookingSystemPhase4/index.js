@@ -63,7 +63,7 @@ const resourceValidators = [
   body('resourceAvailable')
     .exists({ checkFalsy: true }).withMessage('resourceAvailable is required')
     //.exists().withMessage('resourceAvailable is required') //hyväksyy true ja false???
-    .custom(value => typeof value === 'boolean')
+    //.custom(value => typeof value === 'boolean')
     .isBoolean().withMessage('resourceAvailable must be boolean'),
     //.toBoolean(), // coercion ei tarkista arvoa, vaan muuttaa arvon joko true tai false (boolean)
 
