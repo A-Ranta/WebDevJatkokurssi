@@ -23,6 +23,7 @@ app.use(express.static(publicDir));
 // --- Views (HTML pages) ---
 // GET / -> serve index.html
 app.get("/", (req, res) => {
+  console.log("moi");
   res.sendFile(path.join(publicDir, "index.html"));
 });
 
