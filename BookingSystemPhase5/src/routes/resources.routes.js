@@ -68,12 +68,20 @@ router.post("/", resourceValidators, async (req, res) => {
     ];
     const { rows } = await pool.query(insertSql, params);
 
+
     // Add log event new resource
     const resourceId = rows[0].id;
     await logEvent({
       actorUserId,
       //message: `XXXX ${resourceId} XXXX`,
       message: "New resource createddddddddd",
+
+    // Add log event
+    const resourceId = rows[0].id;
+    await logEvent({
+      actorUserId,
+      message: `XXXX ${resourceId} XXXX`,
+
       entityType: "resource",
       entityId: resourceId,
     });
@@ -82,12 +90,20 @@ router.post("/", resourceValidators, async (req, res) => {
   } catch (err) {
     // PostgreSQL unique violation error code is 23505
     if (err && err.code === "23505") {
+
       // Add log event duplicate resource
       console.error(err);
       await logEvent({
         actorUserId,
         //message: `YYYY ${resourceName} YYYY`,
         message: "Duplicate resource not validdddddd",
+
+      // Add log event
+      console.error(err);
+      await logEvent({
+        actorUserId,
+        message: `YYYY ${resourceName} YYYY`,
+
         entityType: "resource",
         entityId: null,
       });
@@ -95,7 +111,11 @@ router.post("/", resourceValidators, async (req, res) => {
       return res.status(409).json({
         ok: false,
         error: "Duplicate resourceName",
+
         details: "A resource with the same name already exists. Please use another resource name.",
+
+        details: "A resource with the same name already exists.",
+
       });
     }
 
