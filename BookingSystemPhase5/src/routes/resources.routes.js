@@ -96,7 +96,7 @@ router.post("/", resourceValidators, async (req, res) => {
       await logEvent({
         actorUserId,
         //message: `YYYY ${resourceName} YYYY`,
-        message: "Duplicate resource not validdddddd",
+        message: "Duplicate resource not validddddddd",
 
       // Add log event
       console.error(err);
