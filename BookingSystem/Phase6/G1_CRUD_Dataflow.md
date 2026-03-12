@@ -39,7 +39,7 @@ sequenceDiagram
 # 2️⃣ READ — Resource (Sequence Diagram)
 
 ```mermaid
-
+sequenceDiagram
 1.Osallistujat:
 
 2. Päätepiste ja metodi:
@@ -59,7 +59,7 @@ resurssia ei löydy:
 # 3️⃣ UPDATE — Resource (Sequence Diagram)
 
 ```mermaid
-
+sequenceDiagram
 1.Osallistujat:
 Käyttäjä Selain
 Backend Express
@@ -76,12 +76,15 @@ Selaimessa viesti: "(huoneen nimi) succesfully updated!"
 4. Virheen sattuessa: 
 Kielletyt merkit curl komennolla:
 HTTP/1.1 400 Bad Request
+{"ok":false,"errors":[{"field":"resourceDescription","msg":"resourceDescription can on
+ly contain letters, numbers, spaces and symbols ,.-"}]}
+
 ```
 
 # 4️⃣ DELETE — Resource (Sequence Diagram)
 
 ```mermaid
-
+sequenceDiagram
 1.0sallistujat:
 
 2. Päätepiste ja metodi:
