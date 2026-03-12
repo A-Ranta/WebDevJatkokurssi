@@ -41,6 +41,7 @@ sequenceDiagram
 ```mermaid
 sequenceDiagram
 1.Osallistujat:
+Käyttäjä Selain
 
 2. Päätepiste ja metodi:
 GET http://localhost:5000/api/resources
@@ -86,6 +87,7 @@ ly contain letters, numbers, spaces and symbols ,.-"}]}
 ```mermaid
 sequenceDiagram
 1.0sallistujat:
+Käyttäjä Selain
 
 2. Päätepiste ja metodi:
 DELETE http://localhost:5000/api/resources/10 (id numero tietokannassa)
