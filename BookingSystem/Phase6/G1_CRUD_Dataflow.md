@@ -41,6 +41,20 @@ sequenceDiagram
 ```
 mermaid
 
+1.Osallistujat:
+
+2. Päätepiste ja metodi:
+GET http://localhost:5000/api/resources
+GET metodilla luettu (Read)
+päätepiste = http://localhost:5000/api/resources
+
+3. Onnistuminen:
+Luodun (Create) resurssin lukeminen (Read) onnistuu = 200 OK
+Lisätty resurssi näkyy "Resource List" kohdassa selaimessa
+
+4. Virheen sattuessa:
+resurssia ei löydy:
+{"ok":false,"error":"Resource not found"}
 ```
 
 # 3️⃣ UPDATE — Resource (Sequence Diagram)
@@ -48,11 +62,41 @@ mermaid
 ```
 mermaid
 
+1.Osallistujat:
+Käyttäjä Selain
+Backend Express
+
+2. Päätepiste ja metodi:
+PUT http://localhost:5000/api/resources/8 (id numero tietokannassa)
+PUT metodilla päivitetty (Update)
+päätepiste = http://localhost:5000/api/resources/8 (id numero tietokannassa)
+
+3. Onnistuminen:
+Päivitys onnistuu = 200 OK
+Selaimessa viesti: "(huoneen nimi) succesfully updated!"
+
+4. Virheen sattuessa: 
+Kielletyt merkit curl komennolla:
+HTTP/1.1 400 Bad Request
 ```
 
 # 4️⃣ DELETE — Resource (Sequence Diagram)
 
 ```
 mermaid
+
+1.0sallistujat:
+
+2. Päätepiste ja metodi:
+DELETE http://localhost:5000/api/resources/10 (id numero tietokannassa)
+DELETE metodilla poistettu (Delete)
+päätepiste: http://localhost:5000/api/resources/10 (id numero tietokannassa)
+
+3.Onnistuminen:
+Poisto onnistuu = 204 No Content
+Selaimessa viesti: "(huoneen nimi) succefully deleted!"
+
+4.Virheen sattuessa:
+
 
 ```
