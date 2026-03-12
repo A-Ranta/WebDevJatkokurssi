@@ -38,8 +38,7 @@ sequenceDiagram
 
 # 2️⃣ READ — Resource (Sequence Diagram)
 
-```
-mermaid
+```mermaid
 
 1.Osallistujat:
 
@@ -59,8 +58,7 @@ resurssia ei löydy:
 
 # 3️⃣ UPDATE — Resource (Sequence Diagram)
 
-```
-mermaid
+```mermaid
 
 1.Osallistujat:
 Käyttäjä Selain
@@ -82,8 +80,7 @@ HTTP/1.1 400 Bad Request
 
 # 4️⃣ DELETE — Resource (Sequence Diagram)
 
-```
-mermaid
+```mermaid
 
 1.0sallistujat:
 
