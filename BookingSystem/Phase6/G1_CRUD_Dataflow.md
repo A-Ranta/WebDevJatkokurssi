@@ -40,8 +40,12 @@ sequenceDiagram
 
 ```mermaid
 sequenceDiagram
-1.Osallistujat:
-Käyttäjä Selain
+    participant U as User (Browser)
+    participant F as Frontend (form.js and resources.js)
+    participant B as Backend (Express Route)
+    participant V as express-validator
+    participant S as Resource Service
+    participant DB as PostgreSQL
 
 2. Päätepiste ja metodi:
 GET http://localhost:5000/api/resources
@@ -55,22 +59,30 @@ Lisätty resurssi näkyy "Resource List" kohdassa selaimessa
 4. Virheen sattuessa:
 resurssia ei löydy:
 {"ok":false,"error":"Resource not found"}
+
+Lukeminen curl komennolla:
+HTTP/1.1 409 Conflict
+{"ok":false,"error":"Duplicate resource name"}
+
 ```
 
 # 3️⃣ UPDATE — Resource (Sequence Diagram)
 
 ```mermaid
 sequenceDiagram
-1.Osallistujat:
-Käyttäjä Selain
-Backend Express
+    participant U as User (Browser)
+    participant F as Frontend (form.js and resources.js)
+    participant B as Backend (Express Route)
+    participant V as express-validator
+    participant S as Resource Service
+    participant DB as PostgreSQL
 
 2. Päätepiste ja metodi:
 PUT http://localhost:5000/api/resources/8 (id numero tietokannassa)
 PUT metodilla päivitetty (Update)
 päätepiste = http://localhost:5000/api/resources/8 (id numero tietokannassa)
 
-3. Onnistuminen:
+Delete ok:
 Päivitys onnistuu = 200 OK
 Selaimessa viesti: "(huoneen nimi) succesfully updated!"
 
@@ -80,14 +92,25 @@ HTTP/1.1 400 Bad Request
 {"ok":false,"errors":[{"field":"resourceDescription","msg":"resourceDescription can on
 ly contain letters, numbers, spaces and symbols ,.-"}]}
 
+Resurssin tietojen päivittäminen curl komennolla:
+HTTP/1.1 409 Conflict
+{"ok":false,"error":"Duplicate resource name"}
+
+
 ```
 
 # 4️⃣ DELETE — Resource (Sequence Diagram)
 
 ```mermaid
 sequenceDiagram
-1.0sallistujat:
-Käyttäjä Selain
+    participant U as User (Browser)
+    participant F as Frontend (form.js and resources.js)
+    participant B as Backend (Express Route)
+    participant V as express-validator
+    participant S as Resource Service
+    participant DB as PostgreSQL
+
+U->> F Delete from
 
 2. Päätepiste ja metodi:
 DELETE http://localhost:5000/api/resources/10 (id numero tietokannassa)
