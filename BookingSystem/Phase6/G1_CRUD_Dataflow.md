@@ -110,7 +110,19 @@ sequenceDiagram
     participant S as Resource Service
     participant DB as PostgreSQL
 
-U->> F Delete from
+U->>F: Delete from
+
+Delete succesful (DELETE http://localhost:5000/api/resources/10 (id numero tietokannassa)
+    B->>S: delete Resource(Data)
+    S->>BD: DELETE FROM resources
+    DB->>S: Delete successful
+
+    S-->>B: Deleted resource
+    B->>F: 204 No Content
+    F-->>U: SHow success mesage
+end
+end
+    
 
 2. Päätepiste ja metodi:
 DELETE http://localhost:5000/api/resources/10 (id numero tietokannassa)
