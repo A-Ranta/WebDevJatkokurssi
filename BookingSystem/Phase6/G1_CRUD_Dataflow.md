@@ -77,26 +77,25 @@ sequenceDiagram
     participant S as Resource Service
     participant DB as PostgreSQL
 
-2. Päätepiste ja metodi:
-PUT http://localhost:5000/api/resources/8 (id numero tietokannassa)
-PUT metodilla päivitetty (Update)
-päätepiste = http://localhost:5000/api/resources/8 (id numero tietokannassa)
+    User updates a resource
+    U->>F: Update form
+    F->>F: Client side validation
+    F->>B: PUT /api/resources (JSON)
 
-Delete ok:
-Päivitys onnistuu = 200 OK
-Selaimessa viesti: "(huoneen nimi) succesfully updated!"
+    Update successful PUT http://localhost:5000/api/resources/8 (id number in database)
+        B->>S: update Resource(data)
+        S->>DB UPDATE resources
+        DB-->>S: Update successful message
+        S-->>B: Updated resource
+        B-->>F: 200 OK
 
-4. Virheen sattuessa: 
-Kielletyt merkit curl komennolla:
-HTTP/1.1 400 Bad Request
-{"ok":false,"errors":[{"field":"resourceDescription","msg":"resourceDescription can on
-ly contain letters, numbers, spaces and symbols ,.-"}]}
+    Error:
+        HTTP/1.1 400 Bad Request
+        {"ok":false,"errors":[{"field":"resourceDescription","msg":"resourceDescription can on
+        ly contain letters, numbers, spaces and symbols ,.-"}]}
 
-Resurssin tietojen päivittäminen curl komennolla:
-HTTP/1.1 409 Conflict
-{"ok":false,"error":"Duplicate resource name"}
-
-
+        HTTP/1.1 409 Conflict
+        {"ok":false,"error":"Duplicate resource name"}
 ```
 
 # 4️⃣ DELETE — Resource (Sequence Diagram)
@@ -110,16 +109,17 @@ sequenceDiagram
     participant S as Resource Service
     participant DB as PostgreSQL
 
-U-->>F: Delete from
+    U-->>F: Delete from
+    F->>B: DELETE /api/resources (JSON)
 
-Delete succesful (DELETE http://localhost:5000/api/resources/10 (id number in database)
-    B->>S: delete Resource(Data)
-    S-->>BD: DELETE FROM resources
-    DB-->>S: Delete successful
+    Delete succesful (DELETE http://localhost:5000/api/resources/10 (id number in database)
+        B->>S: delete Resource(Data)
+        S->>BD: DELETE FROM resources
+        DB-->>S: Delete successful
 
-    S-->>B: Deleted resource
-    B-->>F: 204 No Content
-    F-->>U: Show success message "(resource name) succefully deleted!"
+        S-->>B: Deleted resource
+        B-->>F: 204 No Content
+        F-->>U: Show success message "(resource name) succefully deleted!"
 
     Error:
     Delete fails:
