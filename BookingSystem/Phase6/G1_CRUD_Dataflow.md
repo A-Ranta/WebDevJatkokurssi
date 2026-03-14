@@ -47,23 +47,23 @@ sequenceDiagram
     participant S as Resource Service
     participant DB as PostgreSQL
 
-    Käyttäjä lukee lomakeresurssin
+   alt Käyttäjä lukee lomakeresurssin
     U->>F: Lue lomakeresurssi
     F->>B: GET /api/resources (JSON)
     B->>S: Read resource(data)
     S->>DB: SELECT FROM resources
     DB-->>S: Lue resurssi
 
-    Luku onnistui GET http://localhost:5000/api/resources
+    alt Luku onnistui GET http://localhost:5000/api/resources
         B-->>: 200 OK
         F--U: lue resurssi
 
-    Virheet:
-    resurssia ei löydy:
+    alt Virheet:
+    note resurssia ei löydy:
     {"ok":false,"error":"Resource not found"}
 
-    Lukeminen curl komennolla:
-    HTTP/1.1 409 Conflict
+   alt Lukeminen curl komennolla:
+    note HTTP/1.1 409 Conflict
     {"ok":false,"error":"Duplicate resource name"}
     end
 end
@@ -82,25 +82,25 @@ sequenceDiagram
     participant S as Resource Service
     participant DB as PostgreSQL
 
-    Käyttäjä päivittää lomakeresussin tietoja
+    alt Käyttäjä päivittää lomakeresussin tietoja
     U->>F: Update lomake
     F->>F: Client side validation
     F->>B: PUT /api/resources (JSON)
 
-    Update onnistui PUT http://localhost:5000/api/resources/8 (id numero tietokannassa)
+    alt Update onnistui PUT http://localhost:5000/api/resources/8 (id numero tietokannassa)
         B->>S: update Resource(data)
-        S->>DB UPDATE resources WHERE...
+        S->>DB: UPDATE resources WHERE...
         DB-->>S: Update successful viesti
         S-->>B: päivitetty resurssi
         B-->>F: 200 OK
         F->>U: lue resurssi
 
-    Virheet:
-        HTTP/1.1 400 Bad Request
+    alt Virheet:
+        note HTTP/1.1 400 Bad Request
         {"ok":false,"errors":[{"field":"resourceDescription","msg":"resourceDescription can on
         ly contain letters, numbers, spaces and symbols ,.-"}]}
 
-        HTTP/1.1 409 Conflict
+        note HTTP/1.1 409 Conflict
         {"ok":false,"error":"Duplicate resource name"}
 
         end
@@ -118,21 +118,21 @@ sequenceDiagram
     participant S as Resource Service
     participant DB as PostgreSQL
 
-Käyttäjä poistaa lomakeresurssin
+    alt Käyttäjä poistaa lomakeresurssin
     U-->>F: Poista lomakeresurssi
     F->>B: DELETE /api/resources (JSON)
 
-    Poisto onnistui (DELETE http://localhost:5000/api/resources/10 (id numero tietokannassa/taulukossa)
+    alt Poisto onnistui (DELETE http://localhost:5000/api/resources/10 (id numero tietokannassa/taulukossa)
         B->>S: delete Resource(Data)
-        S->>BD: DELETE FROM resources
+        S->>DB: DELETE FROM resources
         DB-->>S: Delete onnistui
 
         S-->>B: Deleted resource
         B-->>F: 204 No Content
         F-->>U: Näytä viesti "(resource name) succefully deleted!"
 
-    Virheet:
-    Poisto epäonnistuu:
+    alt Virheet:
+    note Poisto epäonnistuu:
         B-->>F: 400 Bad Request + errors[]
         F-->>U: näytä viesti
     end
