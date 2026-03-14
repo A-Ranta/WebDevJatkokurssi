@@ -64,8 +64,8 @@ sequenceDiagram
     else duplikaatti
         B-->>F: 409 Conflict
         F-->>U: näytä virheviesti "Duplicate resource name"
+        end
     end
-end
 ```
 
 # 3️⃣ UPDATE — Resource (Sequence Diagram)
