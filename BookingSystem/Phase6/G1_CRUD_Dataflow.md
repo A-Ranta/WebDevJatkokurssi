@@ -54,7 +54,7 @@ sequenceDiagram
     DB-->>S: Lue resurssi
 
     alt Luku onnistui GET http://localhost:5000/api/resources
-        B-->>: 200 OK
+        B-->>F: 200 OK
         F--U: lue resurssi
 
     else Virheet
