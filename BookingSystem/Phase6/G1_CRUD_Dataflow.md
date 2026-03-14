@@ -53,11 +53,12 @@ sequenceDiagram
     S->>DB: SELECT * FROM resources
     DB-->>S: Lue resurssi
 
-    alt Luku onnistui GET http://localhost:5000/api/resources
+    alt resurssi löytyy
+        S-->>B: resurssi
         B-->>F: 200 OK
         F-->>U: lue resurssi
 
-    else Virheet
+    else resurssia ei löydy
         S-->>B: not found
         B-->>F: 404 Not Found
         F-->>U: näytä virheviesti resource not found
