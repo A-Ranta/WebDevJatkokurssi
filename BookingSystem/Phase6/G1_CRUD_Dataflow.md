@@ -55,10 +55,10 @@ sequenceDiagram
 
     alt Luku onnistui GET http://localhost:5000/api/resources
         B-->>F: 200 OK
-        F--U: lue resurssi
+        F-->>U: lue resurssi
 
     else Virheet
-        S--B: not found
+        S-->>B: not found
         B-->>:F 404 Not Found
         F-->>U: näytä virheviesti resource not found
     else duplikaatti
