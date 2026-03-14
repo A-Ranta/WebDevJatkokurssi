@@ -59,7 +59,7 @@ sequenceDiagram
 
     else Virheet
         S-->>B: not found
-        B-->>:F 404 Not Found
+        B-->>F: 404 Not Found
         F-->>U: näytä virheviesti resource not found
     else duplikaatti
         B-->>F: 409 Conflict
