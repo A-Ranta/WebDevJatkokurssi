@@ -47,7 +47,6 @@ sequenceDiagram
     participant S as Resource Service
     participant DB as PostgreSQL
 
- 
     U->>F: Lue lomakeresurssi
     F->>B: GET /api/resources (JSON)
     B->>S: Read resource(data)
@@ -59,19 +58,14 @@ sequenceDiagram
         F--U: lue resurssi
 
     else Virheet
-        note resurssia ei löydy:
-        note {"ok":false,"error":"Resource not found"}
         S--B: not found
         B-->>:F 404 Not Found
-        F-->>U: näytä virheviesti
-    
-        Lukeminen curl komennolla:
-        note HTTP/1.1 409 Conflict
-        note {"ok":false,"error":"Duplicate resource name"}
+        F-->>U: näytä virheviesti resource not found
+    else duplikaatti
+        B-->>F: 409 Conflict
+        F-->>U: näytä virheviesti "Duplicate resource name"
     end
 end
-
-
 ```
 
 # 3️⃣ UPDATE — Resource (Sequence Diagram)
