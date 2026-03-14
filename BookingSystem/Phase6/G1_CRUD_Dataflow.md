@@ -89,10 +89,11 @@ sequenceDiagram
 
     Update onnistui PUT http://localhost:5000/api/resources/8 (id numero tietokannassa)
         B->>S: update Resource(data)
-        S->>DB UPDATE resources
+        S->>DB UPDATE resources WHERE...
         DB-->>S: Update successful viesti
         S-->>B: päivitetty resurssi
         B-->>F: 200 OK
+        F->>U: lue resurssi
 
     Virheet:
         HTTP/1.1 400 Bad Request
