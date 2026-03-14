@@ -47,18 +47,18 @@ sequenceDiagram
     participant S as Resource Service
     participant DB as PostgreSQL
 
-   alt Käyttäjä lukee lomakeresurssin
+   note Käyttäjä lukee lomakeresurssin
     U->>F: Lue lomakeresurssi
     F->>B: GET /api/resources (JSON)
     B->>S: Read resource(data)
-    S->>DB: SELECT FROM resources
+    S->>DB: SELECT * FROM resources
     DB-->>S: Lue resurssi
 
     alt Luku onnistui GET http://localhost:5000/api/resources
         B-->>: 200 OK
         F--U: lue resurssi
 
-    alt Virheet:
+    else Virheet:
     note resurssia ei löydy:
     {"ok":false,"error":"Resource not found"}
 
@@ -82,7 +82,7 @@ sequenceDiagram
     participant S as Resource Service
     participant DB as PostgreSQL
 
-    alt Käyttäjä päivittää lomakeresussin tietoja
+    note Käyttäjä päivittää lomakeresussin tietoja
     U->>F: Update lomake
     F->>F: Client side validation
     F->>B: PUT /api/resources (JSON)
@@ -95,7 +95,7 @@ sequenceDiagram
         B-->>F: 200 OK
         F->>U: lue resurssi
 
-    alt Virheet:
+    else Virheet:
         note HTTP/1.1 400 Bad Request
         {"ok":false,"errors":[{"field":"resourceDescription","msg":"resourceDescription can on
         ly contain letters, numbers, spaces and symbols ,.-"}]}
@@ -118,7 +118,7 @@ sequenceDiagram
     participant S as Resource Service
     participant DB as PostgreSQL
 
-    alt Käyttäjä poistaa lomakeresurssin
+    note Käyttäjä poistaa lomakeresurssin
     U-->>F: Poista lomakeresurssi
     F->>B: DELETE /api/resources (JSON)
 
@@ -131,7 +131,7 @@ sequenceDiagram
         B-->>F: 204 No Content
         F-->>U: Näytä viesti "(resource name) succefully deleted!"
 
-    alt Virheet:
+    else Virheet:
     note Poisto epäonnistuu:
         B-->>F: 400 Bad Request + errors[]
         F-->>U: näytä viesti
