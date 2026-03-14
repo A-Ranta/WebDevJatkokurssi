@@ -65,6 +65,8 @@ sequenceDiagram
     Lukeminen curl komennolla:
     HTTP/1.1 409 Conflict
     {"ok":false,"error":"Duplicate resource name"}
+    end
+end
 
 
 ```
@@ -99,6 +101,9 @@ sequenceDiagram
 
         HTTP/1.1 409 Conflict
         {"ok":false,"error":"Duplicate resource name"}
+
+        end
+    end
 ```
 
 # 4️⃣ DELETE — Resource (Sequence Diagram)
