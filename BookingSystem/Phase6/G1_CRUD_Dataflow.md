@@ -58,11 +58,11 @@ sequenceDiagram
         B-->>: 200 OK
         F--U: lue resurssi
 
-    else Virheet:
+    else Virheet
     note resurssia ei löydy:
     {"ok":false,"error":"Resource not found"}
 
-   alt Lukeminen curl komennolla:
+    Lukeminen curl komennolla:
     note HTTP/1.1 409 Conflict
     {"ok":false,"error":"Duplicate resource name"}
     end
