@@ -47,7 +47,7 @@ sequenceDiagram
     participant S as Resource Service
     participant DB as PostgreSQL
 
-   note Käyttäjä lukee lomakeresurssin
+ 
     U->>F: Lue lomakeresurssi
     F->>B: GET /api/resources (JSON)
     B->>S: Read resource(data)
