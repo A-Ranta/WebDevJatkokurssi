@@ -62,9 +62,7 @@ sequenceDiagram
         S-->>B: not found
         B-->>F: 404 Not Found
         F-->>U: näytä virheviesti resource not found
-    else duplikaatti
-        B-->>F: 409 Conflict
-        F-->>U: näytä virheviesti "Duplicate resource name"
+
         end
     end
 ```
