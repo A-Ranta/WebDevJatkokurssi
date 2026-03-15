@@ -47,10 +47,10 @@ sequenceDiagram
     participant S as Resource Service
     participant DB as PostgreSQL
 
-    U->>F: Lue lomakeresource
-    F->>B: GET /api/resources
-    B->>S: lue resource
-    S->>DB: SELECT * FROM resources
+    U->>F: Lue lomakeresurssi
+    F->>B: GET /api/resources (JSON)
+    B->>S: Read/Lue resource
+    S->>DB: SELECT * FROM resources WHERE...
     DB-->>S: lue resurssi
 
     alt Resurssi löytyy
@@ -60,7 +60,7 @@ sequenceDiagram
     else Resurssia ei löydy
         S-->>B: Not found
         B-->>F: 404 Not Found
-        F-->>U: Näytä virheviesti
+        F-->>U: Näytä virheviestiresource not found
     end
 ```
 
@@ -79,7 +79,7 @@ sequenceDiagram
 
     U->>F: Päivitä lomake
     F->>F: selain/asiakaspuolen validointi
-    F->>B: PUT /api/resources/(id)
+    F->>B: PUT /api/resources/(id) (JSON)
 
     B->>V: backend validointi
     V-->>B: backend validoinnin tulos
@@ -90,7 +90,7 @@ sequenceDiagram
     else Validointi OK
         B->>S: updateResource(id, data)
         S->>DB: UPDATE resources WHERE...
-        DB-->>S: Update lopputulos
+        DB-->>S: Update succesful viesti
 
         alt Duplicate resurssi nimi
             S-->>B: Duplicate resurssi
