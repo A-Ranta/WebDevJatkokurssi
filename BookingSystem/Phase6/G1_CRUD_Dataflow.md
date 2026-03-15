@@ -47,23 +47,20 @@ sequenceDiagram
     participant S as Resource Service
     participant DB as PostgreSQL
 
-    U->>F: Lue lomakeresurssi
-    F->>B: GET /api/resources (JSON)
-    B->>S: Read resource(data)
+    U->>F: Lue lomakeresource
+    F->>B: GET /api/resources
+    B->>S: lue resource
     S->>DB: SELECT * FROM resources
-    DB-->>S: Lue resurssi
+    DB-->>S: lue resurssi
 
-        alt resurssi löytyy
-            S-->>B: resurssi
-            B-->>F: 200 OK
-            F-->>U: lue resurssi
-
-        else resurssia ei löydy
-            S-->>B: not found
-            B-->>F: 404 Not Found
-            F-->>U: näytä virheviesti resource not found
-
-        end
+    alt Resurssi löytyy
+        S-->>B: Resource data
+        B-->>F: 200 OK
+        F-->>U: Näytä resurssi
+    else Resurssia ei löydy
+        S-->>B: Not found
+        B-->>F: 404 Not Found
+        F-->>U: Näytä virheviesti
     end
 ```
 
@@ -78,27 +75,31 @@ sequenceDiagram
     participant S as Resource Service
     participant DB as PostgreSQL
 
-    note Käyttäjä päivittää lomakeresussin tietoja
-    U->>F: Update lomake
-    F->>F: Client side validation
-    F->>B: PUT /api/resources (JSON)
+    Note over U,F: Käyttäjä päivittää lomakeresurssin tietoja PUT             http://localhost:5000/api/resources/8 (id numero tietokannassa)
 
-    alt Update onnistui PUT http://localhost:5000/api/resources/8 (id numero tietokannassa)
-        B->>S: update Resource(data)
+    U->>F: Päivitä lomake
+    F->>F: selain/asiakaspuolen validointi
+    F->>B: PUT /api/resources/(id)
+
+    B->>V: backend validointi
+    V-->>B: backend validoinnin tulos
+
+    alt Validointi epäonnistuu
+        B-->>F: 400 Bad Request
+        F-->>U: Näytä validointivirhe
+    else Validointi OK
+        B->>S: updateResource(id, data)
         S->>DB: UPDATE resources WHERE...
-        DB-->>S: Update successful viesti
-        S-->>B: päivitetty resurssi
-        B-->>F: 200 OK
-        F->>U: lue resurssi
+        DB-->>S: Update lopputulos
 
-    else Virheet:
-        note HTTP/1.1 400 Bad Request
-        {"ok":false,"errors":[{"field":"resourceDescription","msg":"resourceDescription can on
-        ly contain letters, numbers, spaces and symbols ,.-"}]}
-
-        note HTTP/1.1 409 Conflict
-        {"ok":false,"error":"Duplicate resource name"}
-
+        alt Duplicate resurssi nimi
+            S-->>B: Duplicate resurssi
+            B-->>F: 409 Conflict
+            F-->>U: Näytä duplicate-virhe
+        else Päivitys onnistuu
+            S-->>B: päivitä resurssi
+            B-->>F: 200 OK
+            F-->>U: Näytä päivitetty resurssi
         end
     end
 ```
@@ -114,23 +115,21 @@ sequenceDiagram
     participant S as Resource Service
     participant DB as PostgreSQL
 
-    note Käyttäjä poistaa lomakeresurssin
-    U-->>F: Poista lomakeresurssi
-    F->>B: DELETE /api/resources (JSON)
+    Note over U,F: Käyttäjä poistaa lomakeresurssin (DELETE http://localhost:5000/api/resources/10 (id numero tietokannassa/taulukossa)
+    U->>F: Poista lomakeresurssi
+    F->>B: DELETE /api/resources/{id}
 
-    alt Poisto onnistui (DELETE http://localhost:5000/api/resources/10 (id numero tietokannassa/taulukossa)
-        B->>S: delete Resource(Data)
-        S->>DB: DELETE FROM resources
-        DB-->>S: Delete onnistui
+    B->>S: deleteResource(id)
+    S->>DB: DELETE FROM resources
+    DB-->>S: Delete lopputulos
 
+    alt Poisto onnistuu
         S-->>B: Deleted resource
         B-->>F: 204 No Content
-        F-->>U: Näytä viesti "(resource name) succefully deleted!"
-
-    else Virheet:
-    note Poisto epäonnistuu:
-        B-->>F: 400 Bad Request + errors[]
-        F-->>U: näytä viesti
+        F-->>U: Näytä poistoviesti
+    else Poisto epäonnistuu
+        S-->>B: Error
+        B-->>F: 400 Bad Request
+        F-->>U: Näytä virheviesti
     end
-end
 ```
