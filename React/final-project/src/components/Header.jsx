@@ -16,7 +16,7 @@ function Header() {
                     </div>
 
                     {/*info */}
-                    <div className="lg:col-span-4 col-span-4  py-10">
+                    <div className="lg:col-span-4 col-span-4 py-10">
                         <h1 className="font-mono text-2xl">GameRentals</h1>
                         <p className="text-lg">Easy And Fast Video Game Renting</p>
 
