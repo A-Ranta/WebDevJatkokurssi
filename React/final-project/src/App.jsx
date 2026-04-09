@@ -1,18 +1,16 @@
-import { useState } from 'react'
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import HomePage from './pages/HomePage';
+import OrderPage from "./pages/OrderPage";
 
-/*import './App.css'*/
-import Header from './components/Header'
-import Main from './components/Main'
-import Footer from './components/Footer'
 
 function App() {
   return (
-    <>
-      <Header />
-      <Main />
-      <Footer />
-    </>
-  )
+   <BrowserRouter>
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+    </Routes>
+   </BrowserRouter>
+  );
 }
 
 export default App;
