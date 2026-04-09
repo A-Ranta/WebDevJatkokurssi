@@ -8,11 +8,12 @@ import Footer from '../components/Footer'
 
 function HomePage() {
     return (
-         <>
-              <Header />
-              <Main />
-              <Footer />
-            </>
+        <>
+            <Header />
+            <Main />
+            <Link to="/order">OrderPage</Link>
+            <Footer />
+        </>
     )
 }
 
