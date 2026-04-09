@@ -28,7 +28,7 @@ function Main() {
 
                 <p className="text-lg">Click the button below to start browsing our game selection ↓</p>
 
-               <Link to="/order">OrderPage</Link> 
+               
 
                 <button className="hover:underline hover:bg-zinc-700 bg-zinc-600 text-stone-950 m-4 px-4 py-2 rounded-full">
                     Start browsing

@@ -11,7 +11,12 @@ function HomePage() {
         <>
             <Header />
             <Main />
-            <Link to="/order">OrderPage</Link>
+            <Link
+                className="block text-center hover:underline bg-zinc-600 px-4 py-2 rounded"
+                to="/order"
+            >
+                OrderPage
+            </Link>
             <Footer />
         </>
     )
