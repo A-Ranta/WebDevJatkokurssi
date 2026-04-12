@@ -193,7 +193,7 @@ function OrderPage() {
             </form>
 
             
-            {/*Tailwind CSS tyylitys vastaukselle
+            {/*Tailwind CSS tyylitys vastauksellle
             {loading && <p>Sending data... ⏳</p>}
 
             {apiResponse && (
