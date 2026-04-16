@@ -38,6 +38,7 @@ function OrderPage() {
         }));
     }
 
+    //handleSubmit lähetys
     function handleSubmit(event) {
         event.preventDefault();
 
@@ -63,7 +64,7 @@ function OrderPage() {
 
     }
 
-    //Päivitetty handleSubmit tietojen lähetykselle
+    //Päivitetty handleSubmit tietojen lähetykselle tämä pitää korjata????
     /*
         async function handleSubmit(event) {
   event.preventDefault();
@@ -88,7 +89,7 @@ function OrderPage() {
   setSuccessMessage("");
   setLoading(true);
 
-  try {
+  try { tälle pitää tehdä jotain, ilmeisesti vaihtaa API httpbinin tilalle????
     const response = await fetch("https://httpbin.org/post", {
       method: "POST",
       headers: {

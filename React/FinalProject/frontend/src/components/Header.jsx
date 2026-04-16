@@ -1,4 +1,4 @@
-import logo from "../assets/GameRentals.png";
+import logo from "../assets/GameRentals.PNG";
 
 function Header() {
     return (

@@ -52,6 +52,34 @@ app.post("/api/users", async (req, res) => {
   }
 });
 
+app.get("/api/orders", async (req, res) => {
+  try {
+    const result = await pool.query(
+      "SELECT id, name, email, game, terms_accepted, created_at FROM orders ORDER BY id ASC"
+    );
+    res.json(result.rows);
+  } catch (error) {
+    console.error("Database query failed:", error);
+    res.status(500).json({ error: "Database query failed" });
+  }
+});
+
+app.post("/api/orders", async (req, res) => {
+  try {
+    const { name, email, game, terms_accepted } = req.body;
+
+    const result = await pool.query(
+      "INSERT INTO orders (name, email, game, terms_accepted) VALUES ($1, $2, $3, $4) RETURNING id, name, email, game",
+      [name, email, game, terms_accepted]
+    );
+
+    res.status(201).json(result.rows[0]);
+  } catch (error) {
+    console.error("Insert failed:", error);
+    res.status(500).json({ error: "Insert failed" });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`API listening on port ${PORT}`);
 });
