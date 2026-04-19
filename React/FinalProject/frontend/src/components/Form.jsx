@@ -2,10 +2,10 @@ import { useState } from "react";
 import { maxLength, z } from "zod";
 
 //lisää tila palvelimen vastaukselle
-/*  
+
 const [apiResponse, setApiResponse] = useState(null);
 const [loading, setLoading] = useState(false); 
-*/
+
 
 const orderSchema = z.object({
     name: z.string().min(2, "Name must be at least 2 characters long")
@@ -38,7 +38,7 @@ function OrderPage() {
         }));
     }
 
-    //handleSubmit lähetys
+    /*handleSubmit lähetys
     function handleSubmit(event) {
         event.preventDefault();
 
@@ -62,10 +62,10 @@ function OrderPage() {
 
         console.log("Validated form data:", result.data);
 
-    }
+    }*/
 
     //Päivitetty handleSubmit tietojen lähetykselle tämä pitää korjata????
-    /*
+    
         async function handleSubmit(event) {
   event.preventDefault();
 
@@ -89,8 +89,8 @@ function OrderPage() {
   setSuccessMessage("");
   setLoading(true);
 
-  try { tälle pitää tehdä jotain, ilmeisesti vaihtaa API httpbinin tilalle????
-    const response = await fetch("https://httpbin.org/post", {
+  try { //tälle pitää tehdä jotain, ilmeisesti vaihtaa API httpbinin tilalle???? "const response = await fetch("https://httpbin.org/post", {"
+    const response = await fetch("https://api/orders", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -109,7 +109,7 @@ function OrderPage() {
     setLoading(false);
   }
 }
-  */
+  
 
     //lomake
     return (
@@ -194,7 +194,7 @@ function OrderPage() {
             </form>
 
             
-            {/*Tailwind CSS tyylitys vastauksellle
+            //Tailwind CSS tyylitys vastauksellle
             {loading && <p>Sending data... ⏳</p>}
 
             {apiResponse && (
@@ -214,7 +214,7 @@ function OrderPage() {
                     </div>
                 </div>
             )}
-            */}
+            
 
             {successMessage && <p>{successMessage}</p>}
         </div>
