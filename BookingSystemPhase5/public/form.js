@@ -159,12 +159,8 @@ async function onSubmit(event) {
       if (response.status === 409) {
         const msg =
           body?.details ||
-          "zzzzA resource with the same name already exists. Please choose a different name.";
-        showFormMessage("info", `Duplicate blockedzzzzz (409):\n\n${msg}`);
-
-          "A resource with the same name already exists. Please choose another name.";
+          "A resource with the same name already exists. Please choose a different name.";
         showFormMessage("info", `Duplicate blocked (409):\n\n${msg}`);
-
         return;
       }
 
@@ -184,18 +180,16 @@ async function onSubmit(event) {
 
 
       /*
-
-
     const msgLines = [];
     msgLines.push(`Name ➡️ ${body?.data?.name ?? ""}`);
     if (createdAt) msgLines.push(`Created at ➡️ ${createdAt}`);
     msgLines.push(`ID in database ➡️ ${body?.data?.id ?? ""}`);
-
     */
+
    const msgLines = [];
-   msgLines.push("New resource succeffully created");
+   msgLines.push("New resource succefully created");
    msgLines.push(`Name ➡️ ${body?.data?.name ?? ""}`);
-   msgLines.push("Description ➡️" (resourceDescription));
+  msgLines.push(`Description ➡️ ${body?.data?.description ?? ""}`);
    if (createdAt) msgLines.push(`Created at ➡️ ${createdAt}`);
 
 

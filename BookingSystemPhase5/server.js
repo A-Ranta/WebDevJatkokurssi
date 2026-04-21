@@ -2,10 +2,10 @@
 import "dotenv/config";
 import app from "./src/app.js";
 
+import express from "express";
+
+
 const PORT = process.env.IPORT || 3000;
-
-//const PORT = process.env.IPORT || 5000;
-
 
 
 app.listen(PORT, () => {

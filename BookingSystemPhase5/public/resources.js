@@ -49,6 +49,7 @@ function addButton({ label, type = "button", value, classes = "" }) {
   return btn;
 }
 
+
 function setButtonEnabled(btn, enabled) {
   if (!btn) return;
 
@@ -69,6 +70,7 @@ function setButtonEnabled(btn, enabled) {
     }
   }
 }
+  
 
 function renderActionButtons(currentRole) {
   actions.innerHTML = "";
@@ -203,11 +205,13 @@ function setInputVisualState(input, state) {
 function attachResourceNameValidation(input) {
   const update = () => {
     const raw = input.value;
+    
     if (raw.trim() === "") {
       setInputVisualState(input, "neutral");
       setButtonEnabled(createButton, false);
       return;
     }
+      
     resourceNameValid = isResourceNameValid(raw);
 
     setInputVisualState(input, resourceNameValid ? "valid" : "invalid");
@@ -224,11 +228,13 @@ function attachResourceNameValidation(input) {
 function attachResourceDescriptionValidation(input) {
   const update = () => {
     const raw = input.value;
+    
     if (raw.trim() === "") {
       setInputVisualState(input, "neutral");
       setButtonEnabled(createButton, false);
       return;
     }
+      
 
     resourceDescriptionValid = isResourceDescriptionValid(raw);
     setInputVisualState(input, resourceDescriptionValid ? "valid" : "invalid");

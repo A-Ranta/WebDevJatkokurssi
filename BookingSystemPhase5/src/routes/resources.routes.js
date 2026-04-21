@@ -74,14 +74,7 @@ router.post("/", resourceValidators, async (req, res) => {
     await logEvent({
       actorUserId,
       //message: `XXXX ${resourceId} XXXX`,
-      message: "New resource createddddddddd",
-
-    // Add log event
-    const resourceId = rows[0].id;
-    await logEvent({
-      actorUserId,
-      message: `XXXX ${resourceId} XXXX`,
-
+      message: "New resource has been created",
       entityType: "resource",
       entityId: resourceId,
     });
@@ -96,14 +89,7 @@ router.post("/", resourceValidators, async (req, res) => {
       await logEvent({
         actorUserId,
         //message: `YYYY ${resourceName} YYYY`,
-        message: "Duplicate resource not validddddddd",
-
-      // Add log event
-      console.error(err);
-      await logEvent({
-        actorUserId,
-        message: `YYYY ${resourceName} YYYY`,
-
+        message: "Duplicate resource is not valid",
         entityType: "resource",
         entityId: null,
       });
@@ -113,8 +99,6 @@ router.post("/", resourceValidators, async (req, res) => {
         error: "Duplicate resourceName",
 
         details: "A resource with the same name already exists. Please use another resource name.",
-
-        details: "A resource with the same name already exists.",
 
       });
     }
