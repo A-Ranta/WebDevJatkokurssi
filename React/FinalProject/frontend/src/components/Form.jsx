@@ -1,17 +1,11 @@
 import { useState } from "react";
-import { maxLength, z } from "zod";
-
-//lisää tila palvelimen vastaukselle
-
-const [apiResponse, setApiResponse] = useState(null);
-const [loading, setLoading] = useState(false); 
-
+import { z } from "zod";
 
 const orderSchema = z.object({
     name: z.string().min(2, "Name must be at least 2 characters long")
         .max(15, "Name can be at most 20 characters long"),
 
-    email: z.email("Please enter a valid email address"),
+    email: z.string().email("Please enter a valid email address"),
     select: z.string().min(1, "Please select a game to rent"),
     checkbox: z.boolean().refine(val => val === true, {
         message: "Please accept the terms"
@@ -19,6 +13,11 @@ const orderSchema = z.object({
 });
 
 function OrderPage() {
+
+    
+const [apiResponse, setApiResponse] = useState(null);
+const [loading, setLoading] = useState(false);
+
     const [formData, setFormData] = useState({
         name: "",
         email: "",
@@ -65,51 +64,56 @@ function OrderPage() {
     }*/
 
     //Päivitetty handleSubmit tietojen lähetykselle tämä pitää korjata????
-    
-        async function handleSubmit(event) {
-  event.preventDefault();
 
-  const result = orderSchema.safeParse(formData);
+    async function handleSubmit(event) {
+        event.preventDefault();
 
-  if (!result.success) {
-    const fieldErrors = {};
+        const result = orderSchema.safeParse(formData);
 
-    result.error.issues.forEach((issue) => {
-      const fieldName = issue.path[0];
-      fieldErrors[fieldName] = issue.message;
-    });
+        if (!result.success) {
+            const fieldErrors = {};
 
-    setErrors(fieldErrors);
-    setSuccessMessage("");
-    setApiResponse(null);
-    return;
-  }
+            result.error.issues.forEach((issue) => {
+                const fieldName = issue.path[0];
+                fieldErrors[fieldName] = issue.message;
+            });
 
-  setErrors({});
-  setSuccessMessage("");
-  setLoading(true);
+            setErrors(fieldErrors);
+            setSuccessMessage("");
+            setApiResponse(null);
+            return;
+        }
 
-  try { //tälle pitää tehdä jotain, ilmeisesti vaihtaa API httpbinin tilalle???? "const response = await fetch("https://httpbin.org/post", {"
-    const response = await fetch("https://api/orders", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(result.data),
-    });
+        setErrors({});
+        setSuccessMessage("");
+        setLoading(true);
 
-    const data = await response.json();
+        try { //tälle pitää tehdä jotain, ilmeisesti vaihtaa API httpbinin tilalle???? "const response = await fetch("https://httpbin.org/post", {"
+            const response = await fetch("http://localhost:3000/api/orders", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    name: result.data.name,
+                    email: result.data.email,
+                    game: result.data.select,
+                    terms_accepted: result.data.checkbox,
+                }),
+            });
 
-    setApiResponse(data);
-    setSuccessMessage("Form submitted and sent to server successfully! 🎉");
-  } catch (error) {
-    console.error(error);
-    setSuccessMessage("Something went wrong while sending data ❌");
-  } finally {
-    setLoading(false);
-  }
-}
-  
+            const data = await response.json();
+
+            setApiResponse(data);
+            setSuccessMessage("Form submitted and sent to server successfully! 🎉");
+        } catch (error) {
+            console.error(error);
+            setSuccessMessage("Something went wrong while sending data ❌");
+        } finally {
+            setLoading(false);
+        }
+    }
+
 
     //lomake
     return (
@@ -193,8 +197,8 @@ function OrderPage() {
                     type="submit">Submit</button>
             </form>
 
-            
-            //Tailwind CSS tyylitys vastauksellle
+
+            {/*Tailwind CSS tyylitys vastauksellle*/}
             {loading && <p>Sending data... ⏳</p>}
 
             {apiResponse && (
@@ -210,11 +214,11 @@ function OrderPage() {
                             overflowX: "auto",
                         }}
                     >
-                        <pre>{JSON.stringify(apiResponse.json, null, 2)}</pre>
+                        <pre>{JSON.stringify(apiResponse, null, 2)}</pre>
                     </div>
                 </div>
             )}
-            
+
 
             {successMessage && <p>{successMessage}</p>}
         </div>

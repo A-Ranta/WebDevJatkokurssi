@@ -20,9 +20,11 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
-app.get("/api/health", (req, res) => {
+//tämä ilmeisesti turha? päälekkäisyys myöhemmin
+app.get("/api/orders", (req, res) => {
   res.json({ message: "API is running successfully 🚀" });
 });
+
 
 app.get("/api/users", async (req, res) => {
   try {
