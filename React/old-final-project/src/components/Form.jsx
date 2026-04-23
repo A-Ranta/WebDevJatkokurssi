@@ -1,11 +1,7 @@
 import { useState } from "react";
 import { maxLength, z } from "zod";
 
-//lisää tila palvelimen vastaukselle
-/*  
-const [apiResponse, setApiResponse] = useState(null);
-const [loading, setLoading] = useState(false); 
-*/
+
 
 const orderSchema = z.object({
     name: z.string().min(2, "Name must be at least 2 characters long")
@@ -19,6 +15,11 @@ const orderSchema = z.object({
 });
 
 function OrderPage() {
+
+    //lisää tila palvelimen vastaukselle 
+const [apiResponse, setApiResponse] = useState(null);
+const [loading, setLoading] = useState(false); 
+
     const [formData, setFormData] = useState({
         name: "",
         email: "",
@@ -38,6 +39,7 @@ function OrderPage() {
         }));
     }
 
+    /*
     function handleSubmit(event) {
         event.preventDefault();
 
@@ -62,9 +64,9 @@ function OrderPage() {
         console.log("Validated form data:", result.data);
 
     }
+        */
 
     //Päivitetty handleSubmit tietojen lähetykselle
-    /*
         async function handleSubmit(event) {
   event.preventDefault();
 
@@ -108,7 +110,7 @@ function OrderPage() {
     setLoading(false);
   }
 }
-  */
+  
 
     //lomake
     return (
@@ -193,7 +195,7 @@ function OrderPage() {
             </form>
 
             
-            {/*Tailwind CSS tyylitys vastauksellle
+            
             {loading && <p>Sending data... ⏳</p>}
 
             {apiResponse && (
@@ -213,7 +215,7 @@ function OrderPage() {
                     </div>
                 </div>
             )}
-            */}
+            
 
             {successMessage && <p>{successMessage}</p>}
         </div>
