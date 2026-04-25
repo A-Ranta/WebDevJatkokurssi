@@ -22,7 +22,7 @@ function Footer() {
                 <a href="#" className="block hover:underline">Discord</a>
             </div>
 
-            {/*Tekijänoikeus*/}
+            {/*Tekijänoikeuskohta*/}
             <div className="lg:col-span-4 col-span-4">
                 <h5 className="p-4 font-mono text-2xl">@Copyright</h5>
                 <p>Antti Ranta</p>
